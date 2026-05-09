@@ -12,9 +12,29 @@ spring:
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
+  redis:
+    database: 0
+    host: ${sky.redis.host}
+    port: 6379
+    lettuce:
+      pool:
+        # 最大连接数
+        max-active: 8
+        # 最大空闲
+        max-idle: 8
+        # 最小空闲
+        min-idle: 0
+        # 连接等待时间
+        max-wait: -1ms
 
 mybatis-plus:
+  #指定 MyBatis Mapper 对应的 XML 文件位置
   mapper-locations: classpath*:/mapper/**/*.xml
+  #实体类包路径
+  type-aliases-package: com.sky.entity
+  configuration:
+    #开启驼峰映射
+    map-underscore-to-camel-case: true
 
 
 logging:
@@ -29,7 +49,7 @@ sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itwsm
-    # 设置jwt过期时间
+    # 设置jwt过期时间(2h)
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
