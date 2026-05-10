@@ -3,6 +3,7 @@ package com.sky.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 public class CategoryDTO implements Serializable {
@@ -18,5 +19,15 @@ public class CategoryDTO implements Serializable {
 
     //排序
     private Integer sort;
+
+    //为了保证AutoFill通知能够正常执行
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
+    private Long createUser;
+
+    private Long updateUser;
+
 
 }

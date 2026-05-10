@@ -24,4 +24,5 @@ public class MessageConstant {
     public static final String ORDER_STATUS_ERROR = "订单状态错误";
     public static final String ORDER_NOT_FOUND = "订单不存在";
     public static final String USER_INSERT_FAILED = "新增用户失败";
+    public static final String OLD_PASSWORD_ERROR = "原始密码错误";
 }
