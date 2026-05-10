@@ -25,4 +25,7 @@ public class MessageConstant {
     public static final String ORDER_NOT_FOUND = "订单不存在";
     public static final String USER_INSERT_FAILED = "新增用户失败";
     public static final String OLD_PASSWORD_ERROR = "原始密码错误";
+    public static final String CATEGORY_NOT_EXIST = "该分类不存在";
+    public static final String CATEGORY_HAVIED_EXISTS = "该分类名称已经存在";
+    public static final String PLEASE_SELECT_CATEGORY = "请选择分类信息";
 }
