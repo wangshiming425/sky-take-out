@@ -9,8 +9,12 @@ import com.sky.constant.StatusConstant;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
 import com.sky.mapper.CategoryMapper;
+import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
@@ -25,6 +29,10 @@ import java.util.List;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private SetmealMapper setmealMapper;
+    @Autowired
+    private DishMapper dishMapper;
 
     /**
      * 分类分页查询
@@ -57,6 +65,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Category category = categoryMapper.selectById(id);
         if (category == null) {
             return Result.error(MessageConstant.CATEGORY_NOT_EXIST);
+        }
+        //检查是否关联了菜品
+        Long dishCount=dishMapper.selectCount(new LambdaQueryWrapper<Dish>().eq(Dish::getCategoryId,id));
+        if(dishCount>0){
+            return Result.error(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
+        }
+        //检查是否关联套餐
+        Long setmealCount=setmealMapper.selectCount(new LambdaQueryWrapper<Setmeal>().eq(Setmeal::getCategoryId,id));
+        if(setmealCount>0){
+            return Result.error(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
         }
         categoryMapper.deleteById(category);
         return Result.success();
@@ -123,6 +141,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return Result.success();
     }
 
+    /**
+     * 根据类型不同显示分类信息
+     * @param type
+     * @return
+     */
     @Override
     public Result<List<Category>> selectByType(String type) {
         List<Category> categoryList = categoryMapper.selectList(new LambdaQueryWrapper<Category>().

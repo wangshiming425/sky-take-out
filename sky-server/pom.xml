@@ -66,7 +66,10 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>

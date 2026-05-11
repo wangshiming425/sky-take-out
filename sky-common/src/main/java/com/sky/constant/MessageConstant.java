@@ -28,4 +28,8 @@ public class MessageConstant {
     public static final String CATEGORY_NOT_EXIST = "该分类不存在";
     public static final String CATEGORY_HAVIED_EXISTS = "该分类名称已经存在";
     public static final String PLEASE_SELECT_CATEGORY = "请选择分类信息";
+    public static final String DISH_HAVIED_EXIST = "菜品已经存在";
+    public static final String DISH_NOT_EXIST = "菜品不存在";
+    public static final String DELETE_PARME_NULL = "请勾选要删除的菜品";
+    public static final String SETMEAL_EXIST_DISH_NOT_STATUS = "套餐中包含该菜品,不能修改状态";
 }

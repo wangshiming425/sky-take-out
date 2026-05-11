@@ -83,6 +83,11 @@ public class CategoryController {
         return categoryService.changStatus(status, id);
     }
 
+    /**
+     * 根据类型查询分类
+     * @param type
+     * @return
+     */
     @GetMapping("/list")
     @ApiOperation("根据类型查询分类")
     public Result<List<Category>> selectByType(String type){
