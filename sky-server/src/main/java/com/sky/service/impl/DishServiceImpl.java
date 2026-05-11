@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sky.annotation.AutoFill;
 import com.sky.constant.MessageConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -126,12 +128,20 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         dishMapper.updateById(dish);
         //获取对应菜品的所有口味
         List<DishFlavor> flavors = dto.getFlavors();
-        dishFlavorMapper.updateById(flavors);
+        if (flavors != null && !flavors.isEmpty()) {
+            for (DishFlavor flavor : flavors) {
+                flavor.setDishId(dishId);
+            }
+        }
+        //先删除后添加
+        dishFlavorMapper.delete(new LambdaQueryWrapper<DishFlavor>().eq(DishFlavor::getDishId, dishId));
+        dishFlavorMapper.insert(flavors);
         return Result.success();
     }
 
     /**
      * 批量删除
+     *
      * @param ids
      * @return
      */
@@ -167,6 +177,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     /**
      * 根据分类查询菜品
+     *
      * @param categoryId
      * @return
      */
@@ -176,21 +187,29 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         return Result.success(dishes);
     }
 
+    /**
+     * 修改菜品状态
+     *
+     * @param status
+     * @param id
+     * @return
+     */
     @Transactional
-    @AutoFill(OperationType.UPDATE)
     @Override
-    public Result changStatus(String status,String id) {
+    public Result changStatus(String status, String id) {
         //先查询对应id的菜品
         Dish dish = dishMapper.selectById(id);
-        if (dish==null){
+        if (dish == null) {
             return Result.error(MessageConstant.PLEASE_SELECT_CATEGORY);
         }
         //再去套餐中看是否有该菜品
         SetmealDish setmealDish = setmealDishMapper.selectOne(new LambdaQueryWrapper<SetmealDish>().eq(SetmealDish::getDishId, id));
-        if(setmealDish!=null){
+        if (setmealDish != null) {
             return Result.error(MessageConstant.SETMEAL_EXIST_DISH_NOT_STATUS);
         }
         dish.setStatus(Integer.valueOf(status));
+        dish.setUpdateTime(LocalDateTime.now());
+        dish.setUpdateUser(BaseContext.getCurrentId());
         dishMapper.updateById(dish);
         return Result.success();
     }

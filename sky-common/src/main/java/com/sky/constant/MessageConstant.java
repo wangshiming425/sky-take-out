@@ -32,4 +32,8 @@ public class MessageConstant {
     public static final String DISH_NOT_EXIST = "菜品不存在";
     public static final String DELETE_PARME_NULL = "请勾选要删除的菜品";
     public static final String SETMEAL_EXIST_DISH_NOT_STATUS = "套餐中包含该菜品,不能修改状态";
+    public static final String SETMEAL_HAVIED_EXISTS = "套餐已经存哎";
+    public static final String SETMEAL_HAVE_UNABLE_DISH = "套餐不能添加未起售的套餐";
+    public static final String SETMEAL_NOT_EXISTS = "套餐状态异常不存在";
+    public static final String SETMEAL_CHANGE_TRANSFROM_FAILED = "套餐修改参数传递失败";
 }

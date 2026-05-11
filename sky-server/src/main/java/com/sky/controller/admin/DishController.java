@@ -25,75 +25,88 @@ public class DishController {
 
     /**
      * 新增菜品
+     *
      * @param dto
      * @return
      */
     @PostMapping
     @ApiOperation("新增菜品")
-    public Result insert(@RequestBody DishDTO dto){
-        log.info("开始新增菜品,信息为:{}",dto);
+    public Result insert(@RequestBody DishDTO dto) {
+        log.info("开始新增菜品,信息为:{}", dto);
         return dishService.insert(dto);
     }
 
     /**
      * 菜品分页查询
+     *
      * @param dto
      * @return
      */
     @GetMapping("/page")
     @ApiOperation("菜品分页查询")
-    public Result<PageResult> pagequery(DishPageQueryDTO dto){
-        log.info("菜品分页查询参数为:{}",dto);
+    public Result<PageResult> pagequery(DishPageQueryDTO dto) {
+        log.info("菜品分页查询参数为:{}", dto);
         return dishService.pagequery(dto);
     }
 
     /**
      * 根据菜品Id查询详细信息
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
     @ApiOperation("根据菜品Id查询详细信息")
-    public Result<DishVO> getById(@PathVariable("id") String id){
+    public Result<DishVO> getById(@PathVariable("id") String id) {
         return dishService.selectById(id);
     }
 
     /**
      * 修改菜品信息
+     *
      * @param dto
      * @return
      */
     @PutMapping
     @ApiOperation("修改菜品信息")
-    public Result changIdfo(@RequestBody DishDTO dto){
+    public Result changIdfo(@RequestBody DishDTO dto) {
         return dishService.changInfo(dto);
     }
 
     /**
      * 批量删除
+     *
      * @param ids
      * @return
      */
     @DeleteMapping
     @ApiOperation("批量删除菜品")
-    public Result deleteMore(String ids){
+    public Result deleteMore(String ids) {
         return dishService.deleteByIds(ids);
     }
 
     /**
      * 根据分类来查询菜品
+     *
      * @param categoryId
      * @return
      */
     @GetMapping("/list")
     @ApiOperation("根据分类Id查询菜品")
-    public Result<List<Dish>> queryByCategoryId(String categoryId){
+    public Result<List<Dish>> queryByCategoryId(String categoryId) {
         return dishService.queryByCategoryId(categoryId);
     }
 
+    /**
+     * 修改菜品状态
+     *
+     * @param status
+     * @param id
+     * @return
+     */
     @PostMapping("/status/{status}")
     @ApiOperation("修改菜品状态")
-    public Result changeStatus(@PathVariable("status") String status,String id){
-        return dishService.changStatus(status,id);
+    public Result changeStatus(@PathVariable("status") String status, String id) {
+        return dishService.changStatus(status, id);
     }
 }
